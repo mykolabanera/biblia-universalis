@@ -1,0 +1,274 @@
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BIBLIA UNIVERSALIS</title>
+<style>
+:root {
+  --bg:#101522; --panel:#1b2638; --text:#f2f4fa;
+  --accent:#d6b66d; --muted:#aab5c5;
+}
+* {box-sizing:border-box}
+body {
+  margin:0; background:var(--bg); color:var(--text);
+  font-family:Arial,sans-serif; line-height:1.5;
+}
+header {
+  text-align:center; padding:28px 14px;
+  background:linear-gradient(135deg,#17243b,#35435b);
+  border-bottom:2px solid var(--accent);
+}
+h1 {color:var(--accent); letter-spacing:3px}
+header p {color:var(--muted)}
+nav {
+  display:flex; flex-wrap:wrap; justify-content:center;
+  gap:8px; padding:14px; background:#151e2d;
+  position:sticky; top:0; z-index:5;
+}
+button {
+  background:var(--panel); color:var(--text);
+  border:1px solid #52627a; border-radius:8px;
+  padding:10px 14px; cursor:pointer;
+}
+button:hover {border-color:var(--accent); color:var(--accent)}
+main {max-width:1100px; margin:auto; padding:16px}
+section {
+  background:var(--panel); padding:18px;
+  margin:15px 0; border-radius:12px;
+  border:1px solid #34445b;
+}
+h2,h3 {color:var(--accent)}
+textarea,input,select {
+  width:100%; padding:12px; margin:7px 0;
+  background:#101a2a; color:white;
+  border:1px solid #53627a; border-radius:7px;
+}
+textarea {min-height:150px; resize:vertical}
+.grid {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(145px,1fr));
+  gap:10px;
+}
+.stat {
+  background:#101a2a; border-radius:8px;
+  padding:12px; text-align:center;
+}
+.stat strong {display:block;color:var(--accent);font-size:23px}
+.hidden {display:none}
+#human {display:block; margin:auto; max-width:260px; width:100%}
+footer {text-align:center;color:var(--muted);padding:25px}
+a {color:var(--accent)}
+</style>
+</head>
+<body>
+
+<header>
+<h1>BIBLIA UNIVERSALIS</h1>
+<p>Scientia · Veritas · Harmonia · Humanitas</p>
+<p>Універсальна бібліотека знань людства</p>
+</header>
+
+<nav>
+<button onclick="show('library')">Бібліотека</button>
+<button onclick="show('analysis')">Математика</button>
+<button onclick="show('translate')">Перекладач</button>
+<button onclick="show('theses')">Тези</button>
+<button onclick="show('lessons')">Уроки</button>
+<button onclick="show('media')">Фільм і музика</button>
+<button onclick="show('science')">Науки</button>
+<button onclick="show('human')">HOMO UNIVERSALIS</button>
+</nav>
+
+<main>
+
+<section id="library">
+<h2>📖 Biblia — бібліотека</h2>
+<p>Основа проєкту — латинська Вульгата. Повний текст ще потрібно імпортувати та перевірити.</p>
+<label>Книга</label>
+<select id="book">
+<option>Genesis</option><option>Exodus</option>
+<option>Leviticus</option><option>Numeri</option>
+<option>Deuteronomium</option><option>Psalmi</option>
+<option>Proverbia</option><option>Isaias</option>
+<option>Evangelium secundum Matthaeum</option>
+<option>Evangelium secundum Marcum</option>
+<option>Evangelium secundum Lucam</option>
+<option>Evangelium secundum Ioannem</option>
+<option>Actus Apostolorum</option>
+<option>Epistula ad Romanos</option>
+<option>Apocalypsis</option>
+</select>
+<label>Розділ</label>
+<input id="chapter" type="number" min="1" value="1">
+<label>Текст латинською або іншою мовою</label>
+<textarea id="bibleText" placeholder="Встав текст біблійного розділу..."></textarea>
+<button onclick="analyze()">Аналізувати текст</button>
+<button onclick="saveText()">Зберегти розділ</button>
+<p id="saveStatus"></p>
+</section>
+
+<section id="analysis">
+<h2>🔢 Математичний аналіз</h2>
+<div class="grid">
+<div class="stat">Букви<strong id="letters">0</strong></div>
+<div class="stat">Пробіли<strong id="spaces">0</strong></div>
+<div class="stat">Слова<strong id="words">0</strong></div>
+<div class="stat">Символи<strong id="chars">0</strong></div>
+<div class="stat">Рядки<strong id="lines">0</strong></div>
+<div class="stat">Унікальні букви<strong id="unique">0</strong></div>
+</div>
+<h3>Порівняння з еталонним текстом</h3>
+<textarea id="reference" placeholder="Встав еталонний текст того самого розділу..."></textarea>
+<button onclick="compareTexts()">Порівняти</button>
+<div id="comparison"></div>
+<p>Порівняння показує різницю довжин. Для визначення конкретних пропущених букв потрібне вирівнювання текстів.</p>
+</section>
+
+<section id="translate">
+<h2>🌍 Перекладач</h2>
+<p>Відкриття зовнішнього перекладача. Доступні мови залежать від сервісу.</p>
+<textarea id="translationText" placeholder="Текст для перекладу..."></textarea>
+<select id="language">
+<option value="uk">Українська</option>
+<option value="la">Латинська</option>
+<option value="en">Англійська</option>
+<option value="de">Німецька</option>
+<option value="fr">Французька</option>
+<option value="es">Іспанська</option>
+<option value="it">Італійська</option>
+<option value="pl">Польська</option>
+<option value="el">Грецька</option>
+<option value="he">Іврит</option>
+<option value="ar">Арабська</option>
+<option value="zh-CN">Китайська</option>
+</select>
+<button onclick="translateText()">Відкрити перекладач</button>
+</section>
+
+<section id="theses">
+<h2>📜 Тези</h2>
+<textarea id="thesisInput" placeholder="Введи тезу або головну думку..."></textarea>
+<button onclick="addItem('thesisInput','thesisList')">Додати тезу</button>
+<ul id="thesisList"></ul>
+</section>
+
+<section id="lessons">
+<h2>🎓 Уроки та повчання</h2>
+<textarea id="lessonInput" placeholder="Введи урок, висновок або повчання..."></textarea>
+<button onclick="addItem('lessonInput','lessonList')">Додати урок</button>
+<ul id="lessonList"></ul>
+</section>
+
+<section id="media">
+<h2>🎬 Фільми та 🎵 музика</h2>
+<p>Тематичні матеріали до біблійних розділів.</p>
+<input id="film" placeholder="Назва фільму або посилання">
+<button onclick="addMedia('film','filmList')">Додати фільм</button>
+<ul id="filmList"></ul>
+<input id="music" placeholder="Назва музики або посилання">
+<button onclick="addMedia('music','musicList')">Додати музику</button>
+<ul id="musicList"></ul>
+</section>
+
+<section id="science">
+<h2>🔬 Наукові дисципліни</h2>
+<div class="grid">
+<div class="stat">Математика</div>
+<div class="stat">Фізика</div>
+<div class="stat">Хімія</div>
+<div class="stat">Біологія</div>
+<div class="stat">Астрономія</div>
+<div class="stat">Історія</div>
+<div class="stat">Географія</div>
+<div class="stat">Філософія</div>
+<div class="stat">Лінгвістика</div>
+<div class="stat">Психологія</div>
+<div class="stat">Право</div>
+<div class="stat">Мистецтво</div>
+</div>
+<p>Це каталог напрямів для подальшого наповнення джерелами, уроками та дослідженнями.</p>
+</section>
+
+<section id="human">
+<h2>🧍 HOMO UNIVERSALIS</h2>
+<p>Схематична модель взаємозв'язку знань людини.</p>
+<svg id="human" viewBox="0 0 240 390">
+<circle cx="120" cy="48" r="32" fill="#d6b66d"/>
+<path d="M120 82 L120 220 M120 110 L45 175 M120 110 L195 175 M120 220 L65 340 M120 220 L175 340"
+stroke="#d6b66d" stroke-width="13" stroke-linecap="round" fill="none"/>
+<circle cx="120" cy="145" r="35" fill="#354c6c" stroke="#d6b66d" stroke-width="2"/>
+<g fill="#fff" font-size="10" text-anchor="middle">
+<text x="120" y="142">Знання</text><text x="120" y="155">Людина</text>
+</g>
+</svg>
+<p>Модель: мова + наука + культура + історія + математика + етика.</p>
+</section>
+
+</main>
+
+<footer>
+BIBLIA UNIVERSALIS · Version 1.0<br>
+Scientia ad unitatem humanitatis
+</footer>
+
+<script>
+function show(id) {
+  document.querySelectorAll('main section').forEach(s=>s.classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+}
+function analyze() {
+  const t=document.getElementById('bibleText').value;
+  const letters=(t.match(/\p{L}/gu)||[]);
+  document.getElementById('letters').textContent=letters.length;
+  document.getElementById('spaces').textContent=(t.match(/ /g)||[]).length;
+  document.getElementById('words').textContent=(t.trim().match(/\S+/g)||[]).length;
+  document.getElementById('chars').textContent=t.length;
+  document.getElementById('lines').textContent=t ? t.split(/\r?\n/).length : 0;
+  document.getElementById('unique').textContent=new Set(letters.map(x=>x.toLowerCase())).size;
+}
+function compareTexts() {
+  const a=document.getElementById('bibleText').value;
+  const b=document.getElementById('reference').value;
+  const diff=a.length-b.length;
+  document.getElementById('comparison').textContent=
+    'Різниця символів: '+diff+'. У тексті '+(diff<0?'на '+Math.abs(diff)+' символів менше.':diff>0?'на '+diff+' символів більше.':'однакова кількість символів.');
+}
+function saveText() {
+  const data={
+    book:document.getElementById('book').value,
+    chapter:document.getElementById('chapter').value,
+    text:document.getElementById('bibleText').value
+  };
+  const key='biblia_'+data.book+'_'+data.chapter;
+  localStorage.setItem(key,JSON.stringify(data));
+  document.getElementById('saveStatus').textContent='Розділ збережено на цьому пристрої.';
+}
+function translateText() {
+  const text=document.getElementById('translationText').value;
+  const lang=document.getElementById('language').value;
+  if(!text.trim()) return alert('Спочатку введи текст.');
+  const url='https://translate.google.com/?sl=auto&tl='+lang+'&text='+encodeURIComponent(text)+'&op=translate';
+  window.open(url,'_blank');
+}
+function addItem(inputId,listId) {
+  const input=document.getElementById(inputId);
+  if(!input.value.trim()) return;
+  const li=document.createElement('li');
+  li.textContent=input.value;
+  document.getElementById(listId).appendChild(li);
+  input.value='';
+}
+function addMedia(inputId,listId) {
+  const input=document.getElementById(inputId);
+  if(!input.value.trim()) return;
+  const li=document.createElement('li');
+  li.textContent=input.value;
+  document.getElementById(listId).appendChild(li);
+  document.getElementById(listId).appendChild(li.cloneNode(true));
+  input.value='';
+}
+show('library');
+</script>
+</body>
+</html>
